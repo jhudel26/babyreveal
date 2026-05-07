@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Gender Reveal - Magical Moment</title>
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="baby-icon">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="#FFB6C1"/>
+                </svg>
+            </div>
+            <div class="loading-text">Preparing your magical moment...</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Reveal Container -->
+    <div id="revealContainer" class="reveal-container" style="display: none;">
+        <!-- Background Effects -->
+        <div class="bg-effects">
+            <div class="floating-hearts"></div>
+            <div class="floating-stars"></div>
+            <div class="sparkles"></div>
+        </div>
+
+        <!-- Header -->
+        <header class="reveal-header">
+            <div class="header-content">
+                <h1 class="reveal-title">A Magical Moment Awaits</h1>
+                <p class="reveal-subtitle">Get ready for the most beautiful surprise</p>
+            </div>
+        </header>
+
+        <!-- Reveal Area -->
+        <main class="reveal-main">
+            <!-- Countdown Section -->
+            <section id="countdownSection" class="countdown-section">
+                <div class="countdown-container">
+                    <h2>Are you ready?</h2>
+                    <div class="countdown-timer">
+                        <div class="countdown-number" id="countdownNumber">3</div>
+                    </div>
+                    <button id="startRevealBtn" class="btn btn-primary btn-large">Start the Magic</button>
+                </div>
+            </section>
+
+            <!-- Reveal Interactions Section -->
+            <section id="interactionsSection" class="interactions-section" style="display: none;">
+                <div class="interaction-container">
+                    <h2>Choose Your Reveal Experience</h2>
+                    <div class="interaction-options">
+                        <button class="interaction-card" data-type="scratch">
+                            <div class="card-icon">🎨</div>
+                            <h3>Scratch Card</h3>
+                            <p>Scratch to reveal</p>
+                        </button>
+                        <button class="interaction-card" data-type="balloon">
+                            <div class="card-icon">🎈</div>
+                            <h3>Pop Balloons</h3>
+                            <p>Pop to discover</p>
+                        </button>
+                        <button class="interaction-card" data-type="gift">
+                            <div class="card-icon">🎁</div>
+                            <h3>Open Gift</h3>
+                            <p>Unwrap the surprise</p>
+                        </button>
+                        <button class="interaction-card" data-type="tap">
+                            <div class="card-icon">👆</div>
+                            <h3>Tap to Reveal</h3>
+                            <p>Simple and sweet</p>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scratch Card Reveal -->
+            <section id="scratchSection" class="scratch-section" style="display: none;">
+                <div class="scratch-container">
+                    <h2>Scratch the Card to Reveal</h2>
+                    <div class="scratch-card">
+                        <div class="scratch-placeholder" id="scratchPlaceholder">
+                            <div class="scratch-result" id="scratchResult">
+                                <div class="gender-result">
+                                    <div class="gender-icon" id="scratchGenderIcon">✨</div>
+                                    <img class="reveal-image" id="scratchRevealImage" alt="Gender reveal">
+                                    <h2 id="scratchGenderText">Scratch to discover!</h2>
+                                </div>
+                            </div>
+                            <canvas id="scratchCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Balloon Reveal -->
+            <section id="balloonSection" class="balloon-section" style="display: none;">
+                <div class="balloon-container">
+                    <h2>Pop the Balloons to Discover</h2>
+                    <div class="balloons-area" id="balloonsArea">
+                        <!-- Balloons will be generated here -->
+                    </div>
+                    <div class="balloon-result" id="balloonResult" style="display: none;">
+                        <div class="gender-result">
+                            <div class="gender-icon" id="balloonGenderIcon"></div>
+                            <img class="reveal-image" id="balloonRevealImage" alt="Gender reveal">
+                            <h2 id="balloonGenderText"></h2>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gift Box Reveal -->
+            <section id="giftSection" class="gift-section" style="display: none;">
+                <div class="gift-container">
+                    <h2>Open the Gift Box</h2>
+                    <div class="gift-box" id="giftBox">
+                        <div class="gift-lid">
+                            <div class="gift-ribbon"></div>
+                        </div>
+                        <div class="gift-body">
+                            <div class="gift-result" id="giftResult" style="display: none;">
+                                <div class="gender-result">
+                                    <div class="gender-icon" id="giftGenderIcon"></div>
+                                    <img class="reveal-image" id="giftRevealImage" alt="Gender reveal">
+                                    <h2 id="giftGenderText"></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="gift-hint">Click on the gift box to open it</p>
+                </div>
+            </section>
+
+            <!-- Tap Reveal -->
+            <section id="tapSection" class="tap-section" style="display: none;">
+                <div class="tap-container">
+                    <h2>Tap the Screen to Reveal</h2>
+                    <div class="tap-area" id="tapArea">
+                        <div class="tap-hint">
+                            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="#FFB6C1"/>
+                            </svg>
+                            <p>Tap to reveal</p>
+                        </div>
+                        <div class="tap-result" id="tapResult" style="display: none;">
+                            <div class="gender-result">
+                                <div class="gender-icon" id="tapGenderIcon"></div>
+                                <img class="reveal-image" id="tapRevealImage" alt="Gender reveal">
+                                <h2 id="tapGenderText"></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Final Result Section -->
+            <section id="resultSection" class="result-section" style="display: none;">
+                <div class="result-container">
+                    <div class="gender-announcement">
+                        <div class="gender-icon-large" id="resultGenderIcon"></div>
+                        <img class="reveal-image" id="resultRevealImage" alt="Gender reveal">
+                        <p class="parents-message" id="parentsMessage"></p>
+                        <h1 id="resultGenderText"></h1>
+                        <p class="result-message">Congratulations on this beautiful moment!</p>
+                    </div>
+                    
+                    <div class="result-actions">
+                        <button id="replayBtn" class="btn btn-primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 4v6h6M23 20v-6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Replay Animation
+                        </button>
+                        <button id="shareBtn" class="btn btn-secondary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m9.032 4.026a9.001 9.001 0 01-7.432 0m9.032-4.026A9.001 9.001 0 0112 3c-4.474 0-8.268 3.12-9.032 7.326m0 0A9.001 9.001 0 0012 21c4.474 0 8.268-3.12 9.032-7.326" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Share
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button id="soundToggle" class="control-btn" title="Toggle Sound">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button id="fullscreenBtn" class="control-btn" title="Fullscreen">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Error Screen -->
+    <div id="errorScreen" class="error-screen" style="display: none;">
+        <div class="error-container">
+            <div class="error-icon">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h2>Oops! Something went wrong</h2>
+            <p id="errorMessage">We couldn't find your reveal code. Please check and try again.</p>
+            <button id="goHomeBtn" class="btn btn-primary">Go Home</button>
+        </div>
+    </div>
+
+    <audio id="celebrationMusic" preload="auto">
+        <source src="assets/music/celebration.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="js/reveal.js"></script>
+</body>
+</html>
