@@ -671,7 +671,8 @@ class RevealExperience {
             }
         }
         if (genderImg && gender) {
-            genderImg.src = gender === 'boy' ? 'img/its-a-boy.png' : 'img/its-a-girl.png';
+            const timestamp = Date.now();
+            genderImg.src = gender === 'boy' ? `img/its-a-boy.png?v=${timestamp}` : `img/its-a-girl.png?v=${timestamp}`;
             genderImg.classList.add('visible');
         }
     }
@@ -710,7 +711,8 @@ class RevealExperience {
                 }
             }
             if (genderImg && gender) {
-                genderImg.src = gender === 'boy' ? 'img/its-a-boy.png' : 'img/its-a-girl.png';
+                const timestamp = Date.now();
+                genderImg.src = gender === 'boy' ? `img/its-a-boy.png?v=${timestamp}` : `img/its-a-girl.png?v=${timestamp}`;
                 genderImg.classList.add('visible');
             }
         }
