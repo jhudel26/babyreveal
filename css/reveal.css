@@ -88,18 +88,51 @@
 }
 
 .countdown-number {
-    width: 124px;
-    height: 124px;
+    width: 140px;
+    height: 140px;
     margin-inline: auto;
     margin-bottom: 1rem;
     border-radius: 50%;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,.08);
+    border: 2px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
     display: grid;
     place-items: center;
-    font-size: 3rem;
-    font-weight: 700;
-    animation: pulse 1.2s ease-in-out infinite;
+    font-size: 3.2rem;
+    font-weight: 800;
+    position: relative;
+    box-shadow: 0 0 30px rgba(255,120,187,.15), inset 0 0 20px rgba(255,255,255,.04);
+    transition: box-shadow 0.3s ease, transform 0.4s cubic-bezier(.34,1.56,.64,1);
+}
+
+.countdown-number::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: rgba(255,120,187,.6);
+    border-right-color: rgba(111,168,255,.4);
+    animation: ringSpin 1.5s linear infinite;
+}
+
+.countdown-number.count-1 { box-shadow: 0 0 40px rgba(255,120,187,.3), inset 0 0 20px rgba(255,255,255,.04); }
+.countdown-number.count-2 { box-shadow: 0 0 40px rgba(111,168,255,.3), inset 0 0 20px rgba(255,255,255,.04); }
+.countdown-number.count-3 { box-shadow: 0 0 40px rgba(255,215,0,.3), inset 0 0 20px rgba(255,255,255,.04); }
+.countdown-number.count-4 { box-shadow: 0 0 40px rgba(74,222,128,.3), inset 0 0 20px rgba(255,255,255,.04); }
+.countdown-number.count-5 { box-shadow: 0 0 40px rgba(192,132,252,.3), inset 0 0 20px rgba(255,255,255,.04); }
+
+.countdown-number.pop {
+    animation: countPop 0.5s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes ringSpin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes countPop {
+    0%   { transform: scale(0.7); opacity: 0; }
+    50%  { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 .interaction-options {
@@ -109,18 +142,36 @@
 }
 
 .interaction-card {
-    border-radius: 16px;
+    border-radius: 18px;
     border: 1px solid var(--border);
     background: rgba(255,255,255,.05);
-    padding: .95rem;
+    padding: 1.1rem;
     color: inherit;
     cursor: pointer;
-    transition: var(--transition);
+    transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), box-shadow 0.35s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.interaction-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.08), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
 }
 
 .interaction-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(111,168,255,.6);
+    transform: translateY(-6px) scale(1.02);
+    border-color: rgba(111,168,255,.4);
+    box-shadow: 0 12px 40px rgba(0,0,0,.2), 0 0 20px rgba(111,168,255,.1);
+}
+
+.interaction-card:hover::before {
+    opacity: 1;
 }
 
 .interaction-card .card-icon {
@@ -385,29 +436,66 @@
 
 .gender-result h2,
 #resultGenderText {
-    font-size: clamp(1.5rem, 6vw, 2.6rem);
+    font-size: clamp(1.6rem, 6.5vw, 2.8rem);
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+    animation: resultSpring 0.7s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+
+.gender-icon-large {
+    opacity: 0;
+    transform: scale(0.5) rotate(-10deg);
+    animation: iconSpinIn 0.6s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+
+.parents-message {
+    color: var(--brand-gold);
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-top: .6rem;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeInUp 0.6s ease forwards;
 }
 
 .result-message {
     color: var(--text-secondary);
     margin-top: .35rem;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
 }
 
-.parents-message {
-    color: var(--brand-gold);
-    font-size: 1.05rem;
-    font-weight: 500;
-    line-height: 1.5;
-    margin-top: .6rem;
+.result-actions .btn {
     opacity: 0;
-    animation: fadeInUp 0.7s ease forwards;
-    animation-delay: 0.3s;
+    transform: translateY(10px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes resultSpring {
+    0%   { opacity: 0; transform: translateY(16px) scale(0.95); }
+    60%  { opacity: 1; transform: translateY(-4px) scale(1.03); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes iconSpinIn {
+    0%   { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+    70%  { opacity: 1; transform: scale(1.15) rotate(3deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
 }
+
+.result-section .gender-announcement > *:nth-child(1) { animation-delay: 0.1s; }
+.result-section .gender-announcement > *:nth-child(2) { animation-delay: 0.25s; }
+.result-section .gender-announcement > *:nth-child(3) { animation-delay: 0.4s; }
+.result-section .gender-announcement > *:nth-child(4) { animation-delay: 0.55s; }
+.result-section .gender-announcement > *:nth-child(5) { animation-delay: 0.7s; }
+.result-actions .btn:nth-child(1) { animation-delay: 0.9s; }
+.result-actions .btn:nth-child(2) { animation-delay: 1.05s; }
 
 .result-actions {
     margin-top: 1.1rem;
@@ -479,8 +567,9 @@
 }
 
 @keyframes confettiFall {
-    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(600deg); opacity: 0; }
+    0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
+    30%  { transform: translateY(30vh) translateX(calc(var(--drift) * 0.3)) rotate(calc(var(--rotate) * 0.3)); opacity: 1; }
+    100% { transform: translateY(110vh) translateX(var(--drift)) rotate(var(--rotate)); opacity: 0; }
 }
 
 .confetti {

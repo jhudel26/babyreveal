@@ -252,25 +252,35 @@ class RevealExperience {
             }
         };
 
+        const updateCountdown = () => {
+            countdownNumber.classList.remove('pop');
+            void countdownNumber.offsetWidth;
+            countdownNumber.classList.add('pop');
+            countdownNumber.className = `countdown-number pop count-${count}`;
+            countdownNumber.textContent = count;
+            playSound();
+        };
+
+        updateCountdown();
+
         const countInterval = setInterval(() => {
             count--;
-            playSound();
-            
-            if (count > 0) {
-                countdownNumber.textContent = count;
-                countdownNumber.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    countdownNumber.style.transform = 'scale(1)';
-                }, 200);
+
+            if (count >= 0) {
+                updateCountdown();
             } else {
                 clearInterval(countInterval);
+                countdownNumber.classList.remove('pop');
+                void countdownNumber.offsetWidth;
+                countdownNumber.classList.add('pop');
                 countdownNumber.textContent = '🎉';
-                
+                countdownNumber.style.boxShadow = '0 0 60px rgba(255,215,0,.4), inset 0 0 30px rgba(255,255,255,.1)';
+
                 setTimeout(() => {
                     if (countdownSection) countdownSection.style.display = 'none';
-                    // Automatically start the admin-selected reveal type
+                    countdownNumber.style.boxShadow = '';
                     this.startAdminSelectedReveal();
-                }, 1000);
+                }, 1200);
             }
         }, 1000);
     }
@@ -707,29 +717,51 @@ class RevealExperience {
     }
 
     createConfetti() {
-        const colors = ['#FFB6C1', '#87CEEB', '#FFD700', '#98FB98', '#DDA0DD'];
-        const confettiCount = 100;
+        const colors = ['#FFB6C1', '#87CEEB', '#FFD700', '#4ADE80', '#c084fc', '#FB923C', '#f472b6', '#60a5fa'];
+        const shapes = ['circle', 'square', 'rect', 'triangle'];
+        const confettiCount = 140;
 
         for (let i = 0; i < confettiCount; i++) {
             const confetti = document.createElement('div');
-            confetti.className = 'confetti';
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const size = Math.random() * 10 + 4;
+            const shape = shapes[Math.floor(Math.random() * shapes.length)];
+            const left = Math.random() * 100;
+            const duration = Math.random() * 2.5 + 2.5;
+            const delay = Math.random() * 0.8;
+            const rotateDir = Math.random() > 0.5 ? 1 : -1;
+            const drift = (Math.random() - 0.5) * 200;
+
+            let borderRadius = '0';
+            let clipPath = 'none';
+            let w = size, h = size;
+
+            if (shape === 'circle') { borderRadius = '50%'; }
+            else if (shape === 'rect') { w = size; h = size * 0.55; borderRadius = '2px'; }
+            else if (shape === 'triangle') {
+                clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+                w = size; h = size;
+            }
+
             confetti.style.cssText = `
                 position: fixed;
-                width: ${Math.random() * 15 + 5}px;
-                height: ${Math.random() * 15 + 5}px;
-                background: ${colors[Math.floor(Math.random() * colors.length)]};
-                left: ${Math.random() * 100}%;
-                top: -10px;
-                border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                width: ${w}px;
+                height: ${h}px;
+                background: ${color};
+                left: ${left}%;
+                top: -14px;
+                border-radius: ${borderRadius};
+                clip-path: ${clipPath};
                 pointer-events: none;
                 z-index: 9999;
-                animation: confettiFall ${Math.random() * 4 + 2}s linear forwards;
+                opacity: ${Math.random() * 0.3 + 0.7};
+                --drift: ${drift}px;
+                --rotate: ${rotateDir * (Math.random() * 720 + 360)}deg;
+                animation: confettiFall ${duration}s ease-in forwards;
+                animation-delay: ${delay}s;
             `;
             document.body.appendChild(confetti);
-
-            setTimeout(() => {
-                confetti.remove();
-            }, 6000);
+            setTimeout(() => confetti.remove(), (duration + delay) * 1000 + 100);
         }
     }
 
