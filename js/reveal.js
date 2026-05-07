@@ -671,7 +671,7 @@ class RevealExperience {
             }
         }
         if (genderImg && gender) {
-            genderImg.src = gender === 'boy' ? 'img/its a boy.png' : 'img/its a girl.png';
+            genderImg.src = gender === 'boy' ? 'img/its-a-boy.png' : 'img/its-a-girl.png';
             genderImg.classList.add('visible');
         }
     }
@@ -710,7 +710,7 @@ class RevealExperience {
                 }
             }
             if (genderImg && gender) {
-                genderImg.src = gender === 'boy' ? 'img/its a boy.png' : 'img/its a girl.png';
+                genderImg.src = gender === 'boy' ? 'img/its-a-boy.png' : 'img/its-a-girl.png';
                 genderImg.classList.add('visible');
             }
         }
