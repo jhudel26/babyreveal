@@ -671,8 +671,9 @@ class RevealExperience {
             }
         }
         if (genderImg && gender) {
-            const timestamp = Date.now();
-            genderImg.src = gender === 'boy' ? `img/its-a-boy.png?v=${timestamp}` : `img/its-a-girl.png?v=${timestamp}`;
+            genderImg.src = gender === 'boy' 
+                ? 'https://raw.githubusercontent.com/jhudel26/babyreveal/main/img/its-a-boy.png'
+                : 'https://raw.githubusercontent.com/jhudel26/babyreveal/main/img/its-a-girl.png';
             genderImg.classList.add('visible');
         }
     }
@@ -711,8 +712,9 @@ class RevealExperience {
                 }
             }
             if (genderImg && gender) {
-                const timestamp = Date.now();
-                genderImg.src = gender === 'boy' ? `img/its-a-boy.png?v=${timestamp}` : `img/its-a-girl.png?v=${timestamp}`;
+                genderImg.src = gender === 'boy' 
+                    ? 'https://raw.githubusercontent.com/jhudel26/babyreveal/main/img/its-a-boy.png'
+                    : 'https://raw.githubusercontent.com/jhudel26/babyreveal/main/img/its-a-girl.png';
                 genderImg.classList.add('visible');
             }
         }
