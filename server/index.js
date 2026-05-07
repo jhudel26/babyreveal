@@ -157,10 +157,18 @@ app.use(cookieParser());
 async function ensureDb() {
   if (dbReady) return;
   try {
+    console.log("DB_CONFIG:", {
+      host: DB_CONFIG.host ? "SET" : "MISSING",
+      user: DB_CONFIG.user ? "SET" : "MISSING",
+      password: DB_CONFIG.password ? "SET" : "MISSING",
+      database: DB_CONFIG.database ? "SET" : "MISSING"
+    });
     await initDatabase();
     dbReady = true;
+    console.log("Database connected successfully");
   } catch (err) {
     console.error("DB init error:", err.message);
+    console.error("Full error:", err);
     throw err;
   }
 }
