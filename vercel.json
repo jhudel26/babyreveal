@@ -63,6 +63,10 @@
     {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
+    },
+    {
+      "src": "/img/(.*)",
+      "dest": "/img/$1"
     }
   ],
   "headers": [
