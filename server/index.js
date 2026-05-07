@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require("uuid");
 const mysql = require("mysql2/promise");
+const cors = require("cors");
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
@@ -38,6 +39,7 @@ const DB_CONFIG = {
 };
 
 const pool = mysql.createPool(DB_CONFIG);
+let dbReady = false;
 
 function generateRevealCode() {
   return crypto.randomBytes(4).toString("base64url").toUpperCase();
@@ -127,6 +129,7 @@ const adminAccounts = [
   }
 ];
 
+app.use(cors({ origin: true, credentials: true }));
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -150,6 +153,26 @@ app.disable("x-powered-by");
 app.set("trust proxy", 1);
 app.use(express.json());
 app.use(cookieParser());
+
+async function ensureDb() {
+  if (dbReady) return;
+  try {
+    await initDatabase();
+    dbReady = true;
+  } catch (err) {
+    console.error("DB init error:", err.message);
+    throw err;
+  }
+}
+
+app.use("/api", async (req, res, next) => {
+  try {
+    await ensureDb();
+    next();
+  } catch (err) {
+    return res.status(500).json({ error: "Database unavailable. Check DB_* env vars." });
+  }
+});
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -403,14 +426,18 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "index.html"));
 });
 
-async function startServer() {
-  await initDatabase();
-  if (require.main === module) {
-    app.listen(PORT, () => {
-      console.log(`Gender Reveal server running on http://localhost:${PORT}`);
-    });
-  }
+if (require.main === module) {
+  (async () => {
+    try {
+      await ensureDb();
+      app.listen(PORT, () => {
+        console.log(`Gender Reveal server running on http://localhost:${PORT}`);
+      });
+    } catch (err) {
+      console.error("Failed to start server:", err.message);
+      process.exit(1);
+    }
+  })();
 }
 
-startServer();
 module.exports = app;
